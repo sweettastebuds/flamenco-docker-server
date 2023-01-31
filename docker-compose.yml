@@ -1,0 +1,14 @@
+version: "3.7"
+
+services:
+  manager:
+    # build the image from the Dockerfile in the current directory
+    build: .
+    command: flameco-manager
+    image: flamenco-manager:latest
+    container_name: flamenco-manager
+    volumes:
+    # Mount the configuration file from the current directory
+      - /home/michael/compose/flamenco/build/flamenco-manager.yaml:/flamenco/flamenco-manager.yaml
+    ports:
+      - "780:8080"
