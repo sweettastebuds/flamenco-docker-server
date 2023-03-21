@@ -1,0 +1,44 @@
+---
+kind: pipeline
+type: docker
+name: local_push_image
+
+# platform:
+#   os: linux
+#   arch: amd64
+
+# platform:
+#   os: windows
+#   arch: amd64
+#   version: 1809
+
+steps:
+- name: buid&push
+  image: ubuntu
+  # settings:
+  #   username:
+  #     from_secret: gitea_username
+  #   password:
+  #     from_secret: gitea_token
+  environment:
+    USERNAME:
+      from_secret: gitea_username
+    PASSWORD:
+      from_secret: gitea_token
+    TAG: ${DRONE_TAG##v}
+  commands:
+  - docker login git.ozosweet.com -u $USERNAME -p $PASSWORD
+  - docker build -t git.ozosweet.com/michael/flamenco-docker-server:latest .
+  - docker build -t git.ozosweet.com/michael/flamenco-docker-server:$TAG .
+  - docker push git.ozosweet.com/michael/flamenco-docker-server:latest
+  - docker push git.ozosweet.com/michael/flamenco-docker-server:$TAG
+
+trigger:
+  branch:
+  - master
+  event:
+  - push
+  - tag
+
+# image_pull_secrets:
+# - gitea_container_creds
