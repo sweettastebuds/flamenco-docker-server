@@ -13,7 +13,7 @@ name: local_push_image
 
 steps:
 - name: buid&push
-  image: ubuntu
+  image: docker:latest
   # settings:
   #   username:
   #     from_secret: gitea_username
