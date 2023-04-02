@@ -2,9 +2,9 @@ kind: pipeline
 type: docker
 name: local_push_image
 
-# platform:
-#   os: linux
-#   arch: amd64
+platform:
+  os: linux
+  arch: amd64
 
 # platform:
 #   os: windows
