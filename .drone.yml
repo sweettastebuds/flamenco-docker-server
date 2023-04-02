@@ -13,24 +13,28 @@ platform:
 
 steps:
 - name: buid&push
-  image: docker:latest
-  # settings:
-  #   username:
-  #     from_secret: gitea_username
-  #   password:
-  #     from_secret: gitea_token
-  environment:
-    USERNAME:
+  # image: docker:latest
+  image: plugins/docker
+  settings:
+    username:
       from_secret: gitea_username
-    PASSWORD:
+    password:
       from_secret: gitea_token
-    TAG: ${DRONE_TAG##v}
-  commands:
-  - docker login git.ozosweet.com -u $USERNAME -p $PASSWORD
-  - docker build -t git.ozosweet.com/michael/flamenco-docker-server:latest .
-  - docker build -t git.ozosweet.com/michael/flamenco-docker-server:$TAG .
-  - docker push git.ozosweet.com/michael/flamenco-docker-server:latest
-  - docker push git.ozosweet.com/michael/flamenco-docker-server:$TAG
+    registry: git.ozosweet.com
+    repo: git.ozosweet.com/michael/flamenco-docker-server
+    auto_tag: true
+  # environment:
+    # USERNAME:
+    #   from_secret: gitea_username
+    # PASSWORD:
+    #   from_secret: gitea_token
+    # TAG: ${DRONE_TAG##v}
+  # commands:
+  # - docker login git.ozosweet.com -u $USERNAME -p $PASSWORD
+  # - docker build -t git.ozosweet.com/michael/flamenco-docker-server:latest .
+  # - docker build -t git.ozosweet.com/michael/flamenco-docker-server:$TAG .
+  # - docker push git.ozosweet.com/michael/flamenco-docker-server:latest
+  # - docker push git.ozosweet.com/michael/flamenco-docker-server:$TAG
 
 trigger:
   branch:
