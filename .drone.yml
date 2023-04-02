@@ -21,7 +21,7 @@ steps:
     password:
       from_secret: gitea_token
     registry: git.ozosweet.com
-    repo: git.ozosweet.com/michael/flamenco-docker-server.git
+    repo: git.ozosweet.com/michael/flamenco-docker-server
     auto_tag: true
     platform: linux/amd64
     tags:
