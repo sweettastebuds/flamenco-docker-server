@@ -11,7 +11,7 @@ WORKDIR /opt
 
 # Define URLs for Flamenco and Blender downloads
 ENV FLAMENCO_URL=https://flamenco.blender.org/downloads/flamenco-3.2-linux-amd64.tar.gz
-ENV BLENDER_URL=https://www.blender.org/download/release/Blender3.3/blender-3.3.6-linux-x64.tar.xz
+ENV BLENDER_URL=https://mirrors.ocf.berkeley.edu/blender/release/Blender3.3/blender-3.3.6-linux-x64.tar.xz
 
 # Download and install Flamenco Manager
 RUN curl -L ${FLAMENCO_URL} -o flamenco.tar.gz \
