@@ -22,9 +22,9 @@ RUN curl -L ${FLAMENCO_URL} -o flamenco.tar.gz \
     && ln -s /opt/flamenco/flamenco-manager /usr/local/bin/flamenco-manager
 
 # Download and install Blender
-RUN curl -L ${BLENDER_URL} -o blender.tar.bz2 \
-    && tar -jxvf blender.tar.bz2 -C /opt/ \
-    && rm blender.tar.bz2 \
+RUN curl -L ${BLENDER_URL} -o blender.tar.xz \
+    && tar -xf blender.tar.xz -C /opt/ \
+    && rm blender.tar.xz \
     && ln -s /opt/blender/blender /usr/local/bin/blender
 
 # Set environment variables
