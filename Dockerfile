@@ -1,33 +1,36 @@
-# Dockerfile for Flamenco Manager on Ubuntu 20.04
 FROM ubuntu:20.04
+
+# Install dependencies
 RUN apt-get update \
     && apt-get upgrade -y \
-    && apt-get install -y imagemagick \
-    # && apt-get autoremove -y \
+    && apt-get install -y imagemagick curl tar \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Flamenco Manager
-WORKDIR /tmp
+# Set working directories
+WORKDIR /opt
 
-# Copy the flamenco and blender tarball into the image
-COPY ./build/flamenco*.tar.gz /tmp/
-COPY ./build/blender-3.3.3-linux-x64 /opt/blender
-# Install Blender
-RUN ln -s /opt/blender/blender /usr/local/bin/blender
-# Unpack the tarball
-RUN mkdir /flamenco \
-    && tar -xzf /tmp/flamenco* -C /flamenco --strip-components=1 \
-    && rm /tmp/flamenco* \
-    && chmod +x /flamenco/flamenco-manager \
-    && ln -s /flamenco/flamenco-manager /usr/local/bin/flamenco-manager
+# Define URLs for Flamenco and Blender downloads
+ENV FLAMENCO_URL=https://flamenco.blender.org/downloads/flamenco-3.2-linux-amd64.tar.gz
+ENV BLENDER_URL=https://www.blender.org/download/release/Blender3.3/blender-3.3.6-linux-x64.tar.xz
+
+# Download and install Flamenco Manager
+RUN curl -L ${FLAMENCO_URL} -o flamenco.tar.gz \
+    && mkdir flamenco \
+    && tar -xzf flamenco.tar.gz -C flamenco --strip-components=1 \
+    && rm flamenco.tar.gz \
+    && chmod +x flamenco/flamenco-manager \
+    && ln -s /opt/flamenco/flamenco-manager /usr/local/bin/flamenco-manager
+
+# Download and install Blender
+RUN curl -L ${BLENDER_URL} -o blender.tar.bz2 \
+    && tar -jxvf blender.tar.bz2 -C /opt/ \
+    && rm blender.tar.bz2 \
+    && ln -s /opt/blender/blender /usr/local/bin/blender
 
 # Set environment variables
 ENV FLAMENCO_MANAGER_PORT=8080
 
-# Create a user to run the manager
-# RUN useradd -m -d /flamenco flamenco
-# USER flamenco
-WORKDIR /flamenco
+WORKDIR /opt/flamenco
 RUN ./flamenco-manager -write-config
 EXPOSE ${FLAMENCO_MANAGER_PORT}
 ENTRYPOINT [ "flamenco-manager" ]
