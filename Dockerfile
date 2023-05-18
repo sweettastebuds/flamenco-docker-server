@@ -3,7 +3,7 @@ FROM ubuntu:20.04
 # Install dependencies
 RUN apt-get update \
     && apt-get upgrade -y \
-    && apt-get install -y imagemagick curl tar \
+    && apt-get install -y imagemagick curl tar xz-utils \
     && rm -rf /var/lib/apt/lists/*
 
 # Set working directories
