@@ -1,0 +1,2 @@
+manager_url: http://flamenco.local:8080/
+task_types: [blender, ffmpeg, file-management, misc]
