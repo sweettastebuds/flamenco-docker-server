@@ -3,6 +3,7 @@
 This Docker image includes Flamenco 3.2 and Blender 3.3.6 on an Ubuntu 20.04 base.
 By default, the docker-compose.yml file in this repository uses this image to run a Flamenco Manager server. Also provided is a docker-compose-worker.yml file that can be used to run a Flamenco Worker, but currently can only render in CPU mode. GPU rendering is not supported.
 
+[![Docker](https://github.com/sweettastebuds/flamenco-docker-server/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/sweettastebuds/flamenco-docker-server/actions/workflows/docker-publish.yml)
 ### To Do
 
 - [ ] Add support for GPU rendering in the Flamenco Worker.
