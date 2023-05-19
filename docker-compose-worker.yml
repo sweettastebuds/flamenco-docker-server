@@ -4,11 +4,11 @@ services:
   manager:
     # build the image from the Dockerfile in the current directory
     build: .
-    command: flameco-manager
+    command: flameco-worker
     image: flamenco-manager:latest
     container_name: flamenco-manager
     volumes:
     # Mount the configuration file from the current directory
-      - ./build/flamenco-manager.yaml:/flamenco/flamenco-manager.yaml
+      - ./build/flamenco-worker.yaml:/flamenco/flamenco-manager.yaml
     ports:
       - "780:8080"
