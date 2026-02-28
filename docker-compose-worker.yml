@@ -1,14 +1,19 @@
 version: "3.7"
 
 services:
-  manager:
+  worker:
     # build the image from the Dockerfile in the current directory
-    build: .
-    command: flameco-worker
-    image: flamenco-manager:latest
-    container_name: flamenco-manager
+    build:
+      context: .
+      args:
+        FLAMENCO_VERSION: "3.2"
+        BLENDER_VERSION: "3.3.6"
+        BLENDER_MAJOR_MINOR: "3.3"
+    command: flamenco-worker
+    image: flamenco-worker:latest
+    container_name: flamenco-worker
     volumes:
     # Mount the configuration file from the current directory
-      - ./build/flamenco-worker.yaml:/flamenco/flamenco-manager.yaml
+      - ./build/flamenco-worker.yaml:/flamenco/flamenco-worker.yaml
     ports:
       - "780:8080"
