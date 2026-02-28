@@ -44,6 +44,6 @@ USER flamenco
 EXPOSE ${FLAMENCO_MANAGER_PORT}
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=15s --retries=3 \
-    CMD curl -f http://localhost:${FLAMENCO_MANAGER_PORT}/api/v3/version || exit 1
+    CMD curl -f http://localhost:${FLAMENCO_MANAGER_PORT}/api/v3/version
 
 ENTRYPOINT [ "flamenco-manager" ]
