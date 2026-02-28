@@ -37,7 +37,7 @@ ENV FLAMENCO_MANAGER_PORT=8080
 
 WORKDIR /opt/flamenco
 RUN ./flamenco-manager -write-config \
-    && chown -R flamenco:flamenco /opt/flamenco /home/flamenco
+    && chown -R flamenco:flamenco /opt/flamenco /home/flamenco /opt/blender /opt/blender-${BLENDER_VERSION}-linux-x64
 
 USER flamenco
 
