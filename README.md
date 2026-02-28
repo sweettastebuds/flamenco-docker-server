@@ -59,4 +59,4 @@ The Dockerfile begins from an Ubuntu 20.04 image, and it performs the following 
 - This Docker image is designed to be used as a base image. You may want to extend this Dockerfile or create another Dockerfile using this image to add any additional software or configuration that your application requires.
 - The Flamenco Manager and Blender versions can be customised at build time via the `FLAMENCO_VERSION`, `BLENDER_VERSION`, and `BLENDER_MAJOR_MINOR` build arguments. The defaults are `3.2`, `3.3.6`, and `3.3` respectively.
 - The container runs as the non-root `flamenco` user for improved security.
-- A `HEALTHCHECK` is configured to poll `http://localhost:8080/api/v3/version` every 30 seconds (with a 15-second start-up grace period).
+- A `HEALTHCHECK` is configured to poll `http://localhost:${FLAMENCO_MANAGER_PORT}/api/v3/version` every 30 seconds (with a 15-second start-up grace period). By default, `FLAMENCO_MANAGER_PORT` is `8080`.
