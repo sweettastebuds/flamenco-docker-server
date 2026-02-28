@@ -2,47 +2,49 @@ name: Docker Compose Test
 
 on:
   pull_request:
-    branches: [ '**' ]
+    branches: ["**"]
 
 jobs:
   test-docker-compose:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - uses: docker/setup-docker-action@v1
+      - name: Setup Docker
+        uses: docker/setup-docker-action@v4
 
-    - uses: docker/setup-compose-action@v1
+      - name: Setup Docker Compose
+        uses: docker/setup-compose-action@v1
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-    - name: Build Docker images
-      run: |
-        docker-compose -f docker-compose.yml build
-        docker-compose -f docker-compose-worker.yml build
+      - name: Build Docker images
+        run: |
+          docker compose -f docker-compose.yml build
+          docker compose -f docker-compose-worker.yml build
 
-    - name: Start services
-      run: |
-        docker-compose -f docker-compose.yml up -d
-        docker-compose -f docker-compose-worker.yml up -d
+      - name: Start services
+        run: |
+          docker compose -f docker-compose.yml up -d
+          docker compose -f docker-compose-worker.yml up -d
 
-    - name: Wait for services to start
-      run: |
-        sleep 30
+      - name: Wait for services to start
+        run: |
+          sleep 30
 
-    - name: Check manager service
-      run: |
-        curl -f http://localhost:780/api/v3/version || exit 1
+      - name: Check manager service
+        run: |
+          curl -f http://localhost:780/api/v3/version || exit 1
 
-    - name: Check worker service
-      run: |
-        # Check if worker container is running
-        docker ps | grep flamenco-worker || exit 1
+      - name: Check worker service
+        run: |
+          # Check if worker container is running
+          docker ps | grep flamenco-worker || exit 1
 
-    - name: Stop services
-      if: always()
-      run: |
-        docker-compose -f docker-compose.yml down
-        docker-compose -f docker-compose-worker.yml down
+      - name: Stop services
+        if: always()
+        run: |
+          docker compose -f docker-compose.yml down
+          docker compose -f docker-compose-worker.yml down
