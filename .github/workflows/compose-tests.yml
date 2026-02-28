@@ -1,9 +1,8 @@
-# .github/workflows/docker-compose-test.yml
 name: Docker Compose Test
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [ '**' ]
 
 jobs:
   test-docker-compose:
