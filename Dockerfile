@@ -1,10 +1,5 @@
 FROM ubuntu:20.04
 
-# Build-time arguments for versioning
-ARG FLAMENCO_VERSION=3.2
-ARG BLENDER_VERSION=3.3.6
-ARG BLENDER_MAJOR_MINOR=3.3
-
 # Install dependencies
 RUN apt-get update \
     && apt-get upgrade -y \
@@ -16,6 +11,11 @@ RUN useradd --system --create-home --home-dir /home/flamenco --shell /bin/bash f
 
 # Set working directories
 WORKDIR /opt
+
+# Build-time arguments for versioning
+ARG FLAMENCO_VERSION=3.2
+ARG BLENDER_VERSION=3.3.6
+ARG BLENDER_MAJOR_MINOR=3.3
 
 # Download and install Flamenco Manager
 RUN curl -L "https://flamenco.blender.org/downloads/flamenco-${FLAMENCO_VERSION}-linux-amd64.tar.gz" -o flamenco.tar.gz \
