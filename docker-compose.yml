@@ -31,7 +31,7 @@ services:
       manager:
         condition: service_healthy
     volumes:
-      - ./build/flamenco-worker.yaml:/opt/flamenco/flamenco-worker.yaml
+      - ./build/flamenco-worker.yaml:/home/flamenco/flamenco-worker.yaml
     healthcheck:
       test: ["CMD", "pgrep", "-f", "flamenco-worker"]
       interval: 30s
