@@ -2,7 +2,9 @@ x-build: &default-build
   context: .
   args:
     FLAMENCO_VERSION: "3.8.2"
+    FLAMENCO_SHA256: "7a88e7fab8239cd626ba30b69019de1e5d058ad7f12260206b0f892c3e0f2de3"
     BLENDER_VERSION: "5.0.1"
+    BLENDER_SHA256: "8019580ee1b7262e505f4196a00237ccf743c88d205b38d34201510676e60b09"
 
 services:
   manager:

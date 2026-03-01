@@ -13,13 +13,15 @@ RUN useradd --system --create-home --home-dir /home/flamenco --shell /bin/bash f
 # Set working directories
 WORKDIR /opt
 
-# Build-time arguments for versioning
-ARG FLAMENCO_VERSION=3.2
-ARG BLENDER_VERSION=3.3.6
-# ARG BLENDER_MAJOR_MINOR=3.3
+# Build-time arguments for versioning and integrity verification
+ARG FLAMENCO_VERSION=3.8.2
+ARG FLAMENCO_SHA256=7a88e7fab8239cd626ba30b69019de1e5d058ad7f12260206b0f892c3e0f2de3
+ARG BLENDER_VERSION=5.0.1
+ARG BLENDER_SHA256=8019580ee1b7262e505f4196a00237ccf743c88d205b38d34201510676e60b09
 
 # Download and install Flamenco Manager
-RUN curl -L "https://flamenco.blender.org/downloads/flamenco-${FLAMENCO_VERSION}-linux-amd64.tar.gz" -o flamenco.tar.gz \
+RUN curl -fL "https://flamenco.blender.org/downloads/flamenco-${FLAMENCO_VERSION}-linux-amd64.tar.gz" -o flamenco.tar.gz \
+    && echo "${FLAMENCO_SHA256}  flamenco.tar.gz" | sha256sum --check --strict \
     && mkdir flamenco \
     && tar -xzf flamenco.tar.gz -C flamenco --strip-components=1 \
     && rm flamenco.tar.gz \
@@ -29,7 +31,8 @@ RUN curl -L "https://flamenco.blender.org/downloads/flamenco-${FLAMENCO_VERSION}
 
 # Download and install Blender
 RUN export BLENDER_MAJOR_MINOR=$(echo ${BLENDER_VERSION} | cut -d. -f1,2) \
-    && curl -L "https://mirrors.ocf.berkeley.edu/blender/release/Blender${BLENDER_MAJOR_MINOR}/blender-${BLENDER_VERSION}-linux-x64.tar.xz" -o blender.tar.xz \
+    && curl -fL "https://download.blender.org/release/Blender${BLENDER_MAJOR_MINOR}/blender-${BLENDER_VERSION}-linux-x64.tar.xz" -o blender.tar.xz \
+    && echo "${BLENDER_SHA256}  blender.tar.xz" | sha256sum --check --strict \
     && tar -xf blender.tar.xz -C /opt/ \
     && rm blender.tar.xz \
     && chmod +x /opt/blender-${BLENDER_VERSION}-linux-x64/blender \
