@@ -40,7 +40,7 @@ RUN export BLENDER_MAJOR_MINOR=$(echo ${BLENDER_VERSION} | cut -d. -f1,2) \
 ENV FLAMENCO_MANAGER_PORT=8080
 
 WORKDIR /home/flamenco
-RUN ./flamenco-manager -write-config \
+RUN flamenco-manager -write-config \
     && chown -R flamenco:flamenco /opt/flamenco /home/flamenco /opt/blender /opt/blender-${BLENDER_VERSION}-linux-x64
 
 USER flamenco
