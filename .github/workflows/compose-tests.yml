@@ -31,7 +31,6 @@ jobs:
       - name: Start services
         run: |
           docker compose -f docker-compose.yml up -d
-          docker compose -f docker-compose-worker.yml up -d
 
       - name: Wait for services to start
         run: |
