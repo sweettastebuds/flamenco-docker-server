@@ -1,24 +1,39 @@
-version: "3.7"
+x-build: &default-build
+  context: .
+  args:
+    FLAMENCO_VERSION: "3.8.2"
+    BLENDER_VERSION: "5.0.1"
 
 services:
   manager:
-    # build the image from the Dockerfile in the current directory
-    build:
-      context: .
-      args:
-        FLAMENCO_VERSION: "3.2"
-        BLENDER_VERSION: "3.3.6"
-        BLENDER_MAJOR_MINOR: "3.3"
-    command: flamenco-manager
-    image: flamenco-manager:latest
+    build: *default-build
+    image: flamenco:latest
     container_name: flamenco-manager
+    restart: unless-stopped
     volumes:
-    # Mount the configuration file from the current directory
-      - ./build/flamenco-manager.yaml:/flamenco/flamenco-manager.yaml
+      - ./build/flamenco-manager.yaml:/opt/flamenco/flamenco-manager.yaml
     ports:
       - "780:8080"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/api/v3/version"]
+      interval: 30s
+      timeout: 10s
+      start_period: 15s
+      retries: 3
+
+  worker:
+    build: *default-build
+    image: flamenco:latest
+    entrypoint: ["flamenco-worker"]
+    container_name: flamenco-worker
+    restart: unless-stopped
+    depends_on:
+      manager:
+        condition: service_healthy
+    volumes:
+      - ./build/flamenco-worker.yaml:/opt/flamenco/flamenco-worker.yaml
+    healthcheck:
+      test: ["CMD", "pgrep", "-f", "flamenco-worker"]
       interval: 30s
       timeout: 10s
       start_period: 15s
