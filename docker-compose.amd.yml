@@ -1,0 +1,11 @@
+# AMD GPU support for Flamenco worker (ROCm/HIP)
+# Usage: docker compose -f docker-compose.yml -f docker-compose.amd.yml up
+# Requires: AMD GPU drivers with ROCm installed on host
+services:
+  worker:
+    devices:
+      - /dev/kfd:/dev/kfd
+      - /dev/dri:/dev/dri
+    group_add:
+      - video
+      - render

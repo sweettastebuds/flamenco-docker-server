@@ -1,0 +1,15 @@
+# NVIDIA GPU support for Flamenco worker
+# Usage: docker compose -f docker-compose.yml -f docker-compose.nvidia.yml up
+# Requires: NVIDIA Container Toolkit installed on host
+services:
+  worker:
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility,graphics
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
