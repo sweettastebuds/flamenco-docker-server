@@ -3,8 +3,8 @@ FROM ubuntu:24.04
 # Install dependencies
 RUN apt-get update \
     && apt-get upgrade -y \
-    && apt install -y imagemagick curl tar xz-utils \
-    && apt install -y libxi6 libxrender1 libxxf86vm1 libxfixes3 libfontconfig1 libgl1 libgl1-mesa-dri libxkbcommon0 \
+    && apt-get install -y imagemagick curl tar xz-utils \
+    && apt-get install -y libxi6 libxrender1 libxxf86vm1 libxfixes3 libfontconfig1 libgl1 libgl1-mesa-dri libxkbcommon0 \
     && rm -rf /var/lib/apt/lists/*
 
 # Create a non-root user to run Flamenco
