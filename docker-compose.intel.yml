@@ -1,0 +1,10 @@
+# Intel GPU support for Flamenco worker (oneAPI/SYCL)
+# Usage: docker compose -f docker-compose.yml -f docker-compose.intel.yml up
+# Requires: Intel GPU drivers installed on host
+services:
+  worker:
+    devices:
+      - /dev/dri:/dev/dri
+    group_add:
+      - video
+      - render
