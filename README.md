@@ -15,14 +15,18 @@ docker build -t flamenco_docker_server .
 
 Replace `flamenco_docker_server` with the desired name for your Docker image.
 
-You can override the default Flamenco or Blender versions at build time using build arguments:
+You can override the default Flamenco or Blender versions at build time using build arguments. When changing versions, you **must** also supply the corresponding SHA256 checksums to ensure build integrity:
 
 ```bash
 docker build \
   --build-arg FLAMENCO_VERSION=3.8.2 \
+  --build-arg FLAMENCO_SHA256=7a88e7fab8239cd626ba30b69019de1e5d058ad7f12260206b0f892c3e0f2de3 \
   --build-arg BLENDER_VERSION=5.0.1 \
+  --build-arg BLENDER_SHA256=8019580ee1b7262e505f4196a00237ccf743c88d205b38d34201510676e60b09 \
   -t flamenco_docker_server .
 ```
+
+SHA256 checksums for Flamenco releases are available at `https://flamenco.blender.org/downloads/flamenco-{VERSION}.sha256`. SHA256 checksums for Blender releases are available at `https://download.blender.org/release/Blender{MAJOR.MINOR}/blender-{VERSION}.sha256`. The build will fail immediately if the downloaded archive does not match the provided checksum.
 
 ### Running with Docker Compose
 
@@ -96,8 +100,8 @@ The Dockerfile begins from an Ubuntu 24.04 image, and it performs the following 
 
 1. Installs necessary dependencies: ImageMagick, curl, tar, xz-utils, and X11/Mesa libraries for headless rendering.
 2. Creates a non-root `flamenco` system user to run Flamenco securely.
-3. Downloads and installs Flamenco Manager and Worker from the specified URL.
-4. Downloads and installs Blender from the specified URL.
+3. Downloads Flamenco Manager and Worker from the official URL and verifies the archive with a pinned SHA256 checksum before extracting.
+4. Downloads Blender from the official URL and verifies the archive with a pinned SHA256 checksum before extracting.
 5. Sets the environment variable for the manager port.
 6. Runs the Flamenco Manager configuration and transfers ownership of relevant directories to the `flamenco` user.
 7. Switches to the non-root `flamenco` user.
@@ -106,5 +110,5 @@ The Dockerfile begins from an Ubuntu 24.04 image, and it performs the following 
 ### Notes
 
 - This Docker image is designed to be used as a base image. You may want to extend this Dockerfile or create another Dockerfile using this image to add any additional software or configuration that your application requires.
-- The Flamenco Manager and Blender versions can be customised at build time via the `FLAMENCO_VERSION` and `BLENDER_VERSION` build arguments. The defaults are `3.2` and `3.3.6` respectively, but the compose files override these to `3.8.2` and `5.0.1`.
+- The Flamenco Manager and Blender versions can be customised at build time via the `FLAMENCO_VERSION` and `BLENDER_VERSION` build arguments. The defaults are `3.8.2` and `5.0.1` respectively. When changing versions, supply matching `FLAMENCO_SHA256` and `BLENDER_SHA256` build arguments; the build will abort if the checksums do not match.
 - The container runs as the non-root `flamenco` user for improved security.
